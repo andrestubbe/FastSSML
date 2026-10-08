@@ -1,33 +1,26 @@
-# The Philosophy of FastXXX
+# The Philosophy of FastSSML
 
 > [!IMPORTANT]
-> **"No copies. Ever. Critical FFM/JNI paths. Native-First performance."**
+> **"Zero Allocation. Instant XML Entity Escaping. Cross-Engine Dialect Translation."**
 
-FastXXX is built on the principle that modern Java applications require **native-first** acceleration for performance-critical operations that the standard JVM APIs cannot fully optimize.
+FastSSML is built on the principle that modern speech pipelines in high-throughput JVM applications require **zero-overhead, entity-safe speech markup generation** without the memory tax of heavy XML DOM trees or the fragility of ad-hoc string concatenation.
 
 ---
 
 ## Core Tenets
 
-### 1. Native-First Execution
-Bypass standard Java abstraction layers to reach the physical limits of the hardware using hand-tuned Win32/C++ and SIMD intrinsics or Java 21+ Foreign Function & Memory (FFM) downcalls.
+### 1. Reject Heavy XML DOM Trees
+Standard XML builders (such as `DocumentBuilderFactory`, DOM, or JAXB) construct deep hierarchical node trees on the JVM heap for simple string manipulation. In real-time conversational AI, voice assistants, and audio streaming pipelines, creating hundreds of DOM nodes per spoken sentence creates severe garbage collection pauses and CPU cache thrashing. FastSSML streams characters directly into a linear, contiguous buffer.
 
-### 2. Zero-Copy Architecture
-Eliminate JNI transition costs and buffer copies by using direct memory access patterns, `MemorySegment`, or primitive registers between the JVM and the native layer.
+### 2. Entity Safety by Default
+Manual string formatting (`String.format("<speak>%s</speak>", text)`) is prone to unescaped XML entity bugs. If incoming text contains `<` or `&`, standard TTS engines crash or reject the synthesis call. FastSSML integrates high-speed inline character escaping directly into the append path, guaranteeing valid XML output with zero performance penalty.
 
-### 3. Deterministic Latency & Zero GC
-Eliminate variance caused by JIT warm-up or garbage collection stalls in critical hot-paths. Critical execution loops allocate **0 bytes / op** on the Java heap.
+### 3. Normalize Dialect Fragmentation
+Different speech engines (Microsoft Edge TTS, Windows SAPI, ElevenLabs, Deepgram, Piper) interpret or reject SSML tags differently. FastSSML abstracts the nuances of prosody rates, voice scoping, and plain-text fallbacks into a single fluent builder, allowing applications to switch speech providers seamlessly without rewriting their text markup layer.
 
-### 4. Hardware-Aware Optimization
-Leverage modern CPU features (AVX2, SSE4.2, NEON) to process data at hardware-native speeds with automatic scalar fallbacks.
-
-### 5. Blueprint Consistency
-As part of the **FastJava** ecosystem, FastXXX adheres to a standardized architecture:
-* **Native Backend**: Direct Win32/C++ implementation or Java 21+ FFM downcalls.
-* **Unified Loading**: Powered by `FastCore` (for JNI DLL modules).
-* **Telemetry & Console**: Integrated HUD diagnostic telemetry powered by `FastANSI`.
-* **Standardized Layout**: Uniform `README.md`, `REFERENCE.md`, `run-demo.bat`, and OpenJDK JMH microbenchmarks (`run-benchmark.bat`).
+### 4. Pure Java Simplicity
+Not every component in the FastJava ecosystem needs C++ native code or JNI bridges. Where Java can achieve sub-microsecond performance through compact algorithms and minimal heap allocation, a **100% pure Java** implementation delivers maximum portability, instantaneous startup, and zero native toolchain friction.
 
 ---
 
-**⚡ FastXXX — Powering the next generation of Native Java.**
+**⚡ FastSSML — Powering the voice generation pipelines of FastJava.**

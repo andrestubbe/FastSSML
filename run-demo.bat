@@ -4,14 +4,14 @@ chcp 65001 > nul
 cd /d "%~dp0"
 
 echo ===================================================
-echo   FastXXX Showcase Demo
+echo   FastSSML Showcase Demo
 echo ===================================================
 echo.
 
-echo [1/2] Building FastXXX...
+echo [1/2] Building FastSSML...
 call mvn clean package -DskipTests -q
 if %ERRORLEVEL% NEQ 0 (
-    echo [ERROR] FastXXX build failed!
+    echo [ERROR] FastSSML build failed!
     pause
     exit /b %ERRORLEVEL%
 )
@@ -26,7 +26,7 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b %ERRORLEVEL%
 )
 
-java --enable-preview -cp "target\classes;..\..\target\classes;..\..\target\*" fastxxx.demo.Demo
+java -cp "target\classes;..\..\target\classes;..\..\target\*" fastssml.demo.Demo
 
 cd ..\..
 pause

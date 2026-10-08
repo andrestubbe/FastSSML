@@ -1,62 +1,65 @@
-# Building FastXXX from Source
+# Compiling FastSSML 🛠️
+
+`FastSSML` is a **100% pure Java 17+ library**. It requires no C++ compiler, no native build tools, and no platform-dependent libraries.
+
+---
 
 ## Prerequisites
 
-- **JDK 17+** — [Download](https://adoptium.net/)
-- **Maven 3.9+** — [Download](https://maven.apache.org/download.cgi)
-- **Visual Studio 2022** — Community/Professional/Enterprise/BuildTools
+- **JDK 17 or higher** (OpenJDK, Temurin, Corretto, GraalVM)
+- **Apache Maven 3.8+**
 
-## Quick Build
+Verify your environment:
+```bash
+java -version
+mvn -version
+```
+
+---
+
+## Building the Library
+
+From the root of the repository:
 
 ```bash
-# 1. Build native DLL first (Windows)
-compile.bat
+# Clean and compile the jar package
+mvn clean package
+```
 
-# 2. Build JAR
+The compiled artifact will be created in `target/FastSSML-0.1.0.jar`.
+
+---
+
+## Running the Showcase Demo
+
+Execute the interactive showcase via the included batch script or Maven:
+
+```cmd
+run-demo.bat
+```
+
+Or manually:
+```bash
 mvn clean package -DskipTests
+cd examples/Demo
+mvn compile exec:java
 ```
 
-## Build Commands
+---
 
-| Command | Purpose |
-|---------|---------|
-| `compile.bat` | Build native DLL (Windows) |
-| `mvn clean compile` | Compile Java only |
-| `mvn clean package` | Build FatJAR with DLL embedded |
-| `mvn test` | Run unit tests |
+## Running JMH Benchmarks
 
-## Native DLL Build
-
-The `compile.bat` script:
-- Auto-detects Visual Studio 2019/2022
-- Auto-detects JAVA_HOME
-- Uses `native\fastXXX.def` for JNI exports
-- Outputs to `build\fastXXX.dll`
-
-The Maven `pom.xml` will automatically pick up `build\fastXXX.dll` and bundle it inside the JAR.
-
-## JNI Exports (.def File)
-
-When using JNI, you MUST export your native functions in the `native\fastXXX.def` file:
-
-```def
-LIBRARY fastXXX
-EXPORTS
-    Java_fastXXX_FastXXX_doSomethingNative
+```cmd
+run-benchmark.bat
 ```
 
-**Important:** Function names must match Java's expected format:
-- Pattern: `Java_packagename_Classname_methodname`
+Or manually:
+```bash
+cd examples/Benchmark
+mvn clean package
+java -jar target/benchmarks.jar -f 1 -wi 2 -i 3 -tu ms -bm thrpt
+```
 
-Without the `.def` file, JNI methods won't be exported and you'll get `UnsatisfiedLinkError`.
+---
 
-## Troubleshooting
-
-**"Cannot find DLL"** — Run `compile.bat` first
-
-**"UnsatisfiedLinkError"** — Common causes:
-1. DLL built but not included in JAR (check `build/` folder).
-2. JNI exports missing — Verify `.def` file.
-3. Wrong function name — Must match `Java_package_Class_method` exactly.
-
-**"Java version mismatch"** — Ensure JDK 17+ is installed and JAVA_HOME is set.
+**Part of the FastJava Ecosystem** — *Making the JVM faster.*

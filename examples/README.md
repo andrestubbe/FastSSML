@@ -1,25 +1,26 @@
-# FastXXX Examples
+# FastSSML Examples
 
-This folder contains standalone example projects to demonstrate and test the library.
+This folder contains standalone example projects demonstrating and benchmarking FastSSML.
 
 ## Demo
 
-The `Demo` project provides a simple "Hello World" implementation.
+The `Demo` project showcases fluent SSML generation, XML entity escaping, and multi-engine dialect translation.
 
-To run it locally using the JAR you just built:
+To run it locally:
 ```bash
 cd Demo
 mvn compile exec:java
 ```
+Or execute `run-demo.bat` from the root directory.
 
 ## Benchmark
 
-The `Benchmark` project compares the performance of the native FastXXX library against standard Java equivalents.
+The `Benchmark` project measures the microbenchmark throughput of FastSSML across multiple dialects using OpenJDK JMH.
 
 To run it:
 ```bash
 cd Benchmark
-mvn compile exec:java
+mvn clean package
+java -jar target/benchmarks.jar
 ```
-
-> **Note:** By default, the `pom.xml` files in these examples are configured to use `<scope>system</scope>` pointing to the `target/` directory of the parent project. This allows you to test changes immediately after building the main library without publishing to a repository. To see how an external user would use it via JitPack, check the comments inside the `pom.xml`.
+Or execute `run-benchmark.bat` from the root directory.

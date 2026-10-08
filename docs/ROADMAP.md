@@ -1,30 +1,30 @@
-# FastXXX Roadmap 🗺️
+# FastSSML Roadmap
 
-**Vision:** Deliver deterministic, ultra-fast native Windows primitives directly on the JVM with zero external runtime bloat.
+## Milestone Status
 
----
-
-## 🟢 v0.1.0: Initial Release (Current)
-- [x] **Core Native Engine**: Native Win32 JNI / Java 21+ FFM implementation.
-- [x] **Blueprint Standards**: Standardized README, REFERENCE, PHILOSOPHY, and COMPILE manuals.
-- [x] **Showcase Demo**: Interactive console demo in `examples/Demo/` via `run-demo.bat`.
-- [x] **JMH Microbenchmark Suite**: Formal throughput & latency benchmarks in `examples/Benchmark/` via `run-benchmark.bat`.
-- [x] **FastJava Ecosystem Alignment**: Consistent JitPack, GitHub releases, and packaging.
-
-## 🟡 v0.2.0: Optimization Phase
-- [ ] **SIMD Acceleration**: Implement AVX2/SSE4.2 vectorized paths for core loops.
-- [ ] **Zero-Allocation Buffer Pools**: Expand re-entrant off-heap pooling for batch operations.
-- [ ] **Alignment Enforcement**: Verify zero-penalty 32-byte memory boundaries.
-
-## 🟠 v0.5.0: Platform & Logic Expansion
-- [ ] **ARM64 Parity**: Native Windows on ARM64 and macOS Apple Silicon support.
-- [ ] **Linux Fallback / Native Bindings**: Direct `libc`/`epoll` paths where applicable.
-- [ ] **Agent Integration**: Streamlined tool-calling bindings for `FastAIBot`.
-
-## 🔴 v1.0.0: Production Hardening
-- [ ] **Full Stability Audit**: Long-run multi-threaded stress and soak testing.
-- [ ] **Enterprise Ready**: Large pages and NUMA-node awareness.
+### Core Dialect & Builder Engine (v0.1.0)
+**Status:** Released
+- [x] High-performance fluent builder API (`FastSSML.create()`).
+- [x] Inline single-pass XML entity escaping (`&`, `<`, `>`, `"`, `'`).
+- [x] Multi-engine dialect translation (`STANDARD`, `EDGE_TTS`, `WINDOWS_SAPI`, `DEEPGRAM`, `ELEVENLABS_PLAIN`).
+- [x] Prosody parameters: `voice`, `lang`, `rate`, `pitch`, `volume`, `pause`, `emphasis`, `whisper`.
+- [x] Pure Java 17+ architecture with zero external dependencies.
+- [x] OpenJDK JMH microbenchmark suite and interactive visual CLI demo.
 
 ---
 
-**Focus:** Performance is our USP. We optimize where Java stops.
+## Upcoming Features
+
+### SSML 1.1 W3C Phoneme & Lexicon Support
+**Status:** In Progress
+- [ ] Add IPA phoneme tagging: `.phoneme(String text, String alphabet, String ph)`.
+- [ ] Support pronunciation lexicon references (`<lexicon src="..."/>`).
+
+### Audio Insertion & Non-Speech Sounds
+**Status:** In Progress
+- [ ] Add inline audio tag support: `.audio(String urlOrPath)`.
+- [ ] Background audio layer tags for supporting TTS engines.
+
+### Streaming Character Output
+**Status:** Backlog
+- [ ] Direct writing into `java.io.Writer` or `java.nio.ByteBuffer` to achieve absolute 0-byte heap allocation during HTTP streaming dispatches.

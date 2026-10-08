@@ -1,46 +1,79 @@
-# FastXXX API Reference Manual
+# FastSSML API Reference Manual
 
-`FastXXX` provides ultra-fast native Windows primitives directly on the JVM with zero external runtime bloat. It bypasses legacy abstraction layers to deliver deterministic sub-microsecond latency, zero garbage collection allocations, and immediate OS hardware integration.
+`FastSSML` provides high-performance, entity-safe Speech Synthesis Markup Language (SSML) construction and cross-engine dialect rendering directly on the JVM with zero native dependencies.
 
 ---
 
-## 1. Class: `fastxxx.FastXXX`
+## 1. Class: `fastssml.FastSSML`
 
-Central facade providing high-performance operations and state accessors.
+The central builder and translator class. Instances are obtained via static factory method `FastSSML.create()`.
 
-### Methods
+### Method Index
 
-| Method / Signature | Return Type | Description |
+| Method Signature | Return Type | Description |
 |:---|:---|:---|
-| `doSomethingNative()` | `void` | Executes high-speed native operation via JNI or Java 21+ FFM. |
-| `getState()` | `int` | Queries current native execution state flags. |
-| `reset()` | `boolean` | Resets native kernel context, state flags, and internal buffers. |
+| `static FastSSML create()` | `FastSSML` | Creates a new fluent builder with default pre-allocated 256-character buffer. |
+| `voice(String voice)` | `FastSSML` | Sets the voice name attribute (e.g. `de-DE-FlorianMultilingualNeural`, `en-US-JennyNeural`). |
+| `lang(String lang)` | `FastSSML` | Sets the document language code (defaults to `en-US`). |
+| `rate(float rate)` | `FastSSML` | Sets speaking rate multiplier (e.g. `1.10f` = +10%, `0.85f` = -15%). |
+| `pitch(float pitch)` | `FastSSML` | Sets speaking pitch multiplier (e.g. `1.05f` = +5%, `0.90f` = -10%). |
+| `volume(float volume)` | `FastSSML` | Sets output volume multiplier (e.g. `1.00f` = standard, `0.80f` = -20%). |
+| `text(String text)` | `FastSSML` | Appends speech text, automatically escaping all XML reserved entities. |
+| `pause(int millis)` | `FastSSML` | Inserts a `<break time='...ms'/>` pause element. |
+| `emphasis(String text, Emphasis level)` | `FastSSML` | Appends text wrapped in an `<emphasis>` tag with the given level. |
+| `whisper(String text)` | `FastSSML` | Appends text with whispered speech effect (`<amazon:effect name='whispered'>`). |
+| `toSSML(Dialect dialect)` | `String` | Renders the complete speech markup targeting the specified engine dialect. |
+| `toSSML()` | `String` | Shortcut for `toSSML(Dialect.STANDARD)`. |
+| `toPlainText()` | `String` | Strips all XML/SSML tags, returning clean plain text for non-markup TTS engines. |
 
 ---
 
-## 2. JNI & FFM Memory Contracts
+## 2. Enums
 
-- **Zero-Allocation**: Hot-path methods operate on primitive registers, flat arrays, or pre-allocated direct memory buffers with **0 bytes GC churn**.
-- **Memory Pinning / Segments**: JNI methods use critical array pinning or direct byte buffers. Modern FFM implementations leverage `java.lang.foreign.MemorySegment` and arena allocators.
-- **Thread-Safety**: Static query and inspection methods are thread-safe and re-entrant.
+### `FastSSML.Dialect`
+
+Defines speech engine dialect targets:
+
+| Constant | Description | Target Engines |
+|:---|:---|:---|
+| `STANDARD` | W3C Standard SSML 1.0 (`xmlns="http://www.w3.org/2001/10/synthesis"`) | Standard W3C speech synthesizers |
+| `EDGE_TTS` | Microsoft Edge TTS neural speech XML format | Edge TTS, Azure Speech Service |
+| `WINDOWS_SAPI` | Microsoft Win32 SAPI / OneCore XML format | Windows native SAPI voices |
+| `DEEPGRAM` | Deepgram Aura conversational TTS format | Deepgram API |
+| `ELEVENLABS_PLAIN` | Strips tags, outputting raw unformatted text | ElevenLabs, Piper ONNX (plain mode) |
+
+### `FastSSML.Emphasis`
+
+Specifies acoustic emphasis levels:
+
+| Constant | XML Attribute Value | Acoustic Result |
+|:---|:---|:---|
+| `NONE` | `"none"` | No accentuation |
+| `REDUCED` | `"reduced"` | Subdued accentuation |
+| `MODERATE` | `"moderate"` | Standard emphasis |
+| `STRONG` | `"strong"` | High-accentuation focus |
 
 ---
 
-## 3. CPU Feature Model
+## 3. Entity Escaping Specification
 
-- **AVX2 / AVX-512**: Detected via CPUID or system feature queries. Enables 32-byte / 64-byte vector operations.
-- **SSE4.2**: 16-byte fallback vector path.
-- **Fallback Rule**: AVX2 → SSE4.2 → Scalar.
+All text passed to `text(...)` or `emphasis(...)` is sanitized in a single linear character pass:
+
+| Character | Escaped Entity | Description |
+|:---:|:---:|:---|
+| `&` | `&amp;` | Ampersand |
+| `<` | `&lt;` | Less-than |
+| `>` | `&gt;` | Greater-than |
+| `"` | `&quot;` | Double quote |
+| `'` | `&apos;` | Single quote / apostrophe |
 
 ---
 
-## 4. Platform Support
+## 4. Concurrency & Allocation Guarantees
 
-| Platform | Architecture | Status | Backend |
-|:---|:---|:---|:---|
-| Windows 10/11 | x64, ARM64 | ✅ Fully Supported | Win32 / DirectX Native or FFM |
-| Linux | x64, ARM64 | 🚧 Planned | Native bindings / pure Java fallback |
-| macOS | Apple Silicon, x64 | 🚧 Planned | Native bindings / pure Java fallback |
+- **Instance Concurrency**: `FastSSML` instances are designed for single-thread fluent construction. A single builder can be re-rendered into multiple dialects (`toSSML(...)`) deterministically.
+- **Allocation Profile**: Internal text storage uses a contiguous `StringBuilder` initialized to 256 characters. Rendering avoids intermediate XML DOM nodes or parse trees.
+- **Pure Java Runtime**: No native DLLs, no JNI overhead, and zero native thread synchronization bottlenecks.
 
 ---
 

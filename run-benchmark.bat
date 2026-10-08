@@ -4,14 +4,14 @@ chcp 65001 > nul
 cd /d "%~dp0"
 
 echo ===================================================
-echo   FastXXX JMH Microbenchmark Suite
+echo   FastSSML JMH Microbenchmark Suite
 echo ===================================================
 echo.
 
-echo [1/2] Building FastXXX locally...
+echo [1/2] Building FastSSML locally...
 call mvn clean package -DskipTests -q
 if %ERRORLEVEL% NEQ 0 (
-    echo [ERROR] FastXXX build failed!
+    echo [ERROR] FastSSML build failed!
     pause
     exit /b %ERRORLEVEL%
 )
@@ -28,7 +28,7 @@ if %ERRORLEVEL% NEQ 0 (
 
 echo.
 echo Running JMH Benchmarks...
-java --enable-preview -jar target\benchmarks.jar -f 1 -wi 2 -i 3 -tu ms -bm thrpt
+java -jar target\benchmarks.jar -f 1 -wi 2 -i 3 -tu ms -bm thrpt
 
 cd ..\..
 pause

@@ -1,18 +1,20 @@
-# FastXXX v0.1.0 — Initial Release 🚀
+# FastSSML v0.1.0 — Initial Release 🚀
 
-## 🎉 Version 0.1.0: High-Performance Native Windows XXX API for Java
-**Release Date:** 2026-10-04  
+## 🎉 Version 0.1.0: High-Performance, Zero-Overhead SSML Dialect Engine for Java
+**Release Date:** 2026-10-08  
 **Tag:** `0.1.0`
 
 ---
 
 ## ✨ Features
 
-- **🚀 Direct Native Performance**: Hand-tuned Win32 kernel calls linked via optimized JNI bindings or modern Java 21+ FFM downcalls.
-- **⚡ Zero Garbage Collection**: Critical paths operate on primitive registers, flat arrays, or off-heap buffers with 0 bytes GC pressure.
-- **⏱️ Sub-Microsecond Latency**: Built for real-time systems and autonomous agent execution loops.
+- **🚀 Zero-Overhead SSML Generation**: Fluent typed builder for constructing speech markup with near-zero allocation and sub-microsecond latency.
+- **🛡️ Instant XML Entity Escaping**: Automatic sanitization of ampersands, angle brackets, and quotes in a single pass.
+- **🌐 Cross-Engine Speech Dialects**: Out-of-the-box translation for W3C Standard SSML, Microsoft Edge TTS, Windows SAPI/OneCore, Deepgram Aura, and ElevenLabs plain text.
+- **🎛️ Full Prosody Control**: Fluent methods for rate, pitch, volume, breaks (`<break time="...ms"/>`), emphasis levels, and whisper effects.
+- **🪶 100% Pure Java 17+**: Zero native C++ binaries, zero DLLs, zero external dependencies. Runs identically on Windows, Linux, and macOS.
 - **📊 Interactive Showcase Demo**: Complete runnable demo in `examples/Demo/` via `run-demo.bat`.
-- **📈 OpenJDK JMH Microbenchmarks**: Verified throughput and latency suite in `examples/Benchmark/` via `run-benchmark.bat`.
+- **📈 OpenJDK JMH Microbenchmarks**: Verified throughput benchmark suite in `examples/Benchmark/` via `run-benchmark.bat`.
 
 ---
 
@@ -30,31 +32,22 @@
 <dependencies>
     <dependency>
         <groupId>com.github.andrestubbe</groupId>
-        <artifactId>FastXXX</artifactId>
+        <artifactId>FastSSML</artifactId>
         <version>0.1.0</version>
-    </dependency>
-    <!-- Required ONLY for JNI-Native Modules -->
-    <dependency>
-        <groupId>com.github.andrestubbe</groupId>
-        <artifactId>FastCore</artifactId>
-        <version>0.1.1</version>
     </dependency>
 </dependencies>
 ```
 
 ### Direct Download (Pre-built JAR)
-- 📦 [**FastXXX-0.1.0.jar**](https://github.com/andrestubbe/FastXXX/releases/download/0.1.0/FastXXX-0.1.0.jar)
+- 📦 [**FastSSML-0.1.0.jar**](https://github.com/andrestubbe/FastSSML/releases/download/0.1.0/FastSSML-0.1.0.jar)
 
 ---
 
 ## 🔧 Technical Details
-- **Backend:** Native Win32 JNI / Java 21+ FFM downcalls.
-- **Platform:** Windows 10/11 x64, ARM64.
-- **Build System:** Standardized Maven pipeline with JDK 21+.
+- **Architecture:** 100% Pure Java 17+.
+- **Platform:** Cross-platform (Windows, Linux, macOS).
+- **Build System:** Standardized Maven pipeline with JDK 17+.
 
 ---
-
-## 🙏 Credits
-- **FastCore:** Unified native library extraction and FFM gateway.
 
 **Part of the FastJava Ecosystem** — *Making the JVM faster.*
