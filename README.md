@@ -6,8 +6,45 @@
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)]()
 [![JitPack](https://img.shields.io/badge/JitPack-0.1.0-green.svg)](https://jitpack.io/#andrestubbe/FastSSML)
 
-> **"Zero Allocation. Instant XML Entity Escaping. Cross-Engine Dialect Translation."**  
-> `FastSSML` is an ultra-fast, zero-overhead speech markup generator and cross-engine dialect translator for the JVM. It synthesizes standards-compliant W3C SSML, Microsoft Edge TTS markup, Windows SAPI/OneCore speech strings, Deepgram Aura formats, and raw plain-text speech strips with deterministic sub-microsecond throughput.
+---
+
+**⚡ High-Performance, Zero-Allocation SSML Builder & Cross-Engine Speech Dialect Engine for Java.**
+
+**FastSSML** provides ultra-fast speech markup construction and multi-engine dialect translation directly on the JVM with zero external runtime bloat. It synthesizes standards-compliant W3C SSML, Microsoft Edge TTS markup, Windows SAPI/OneCore speech strings, Deepgram Aura formats, and raw plain-text speech strips with deterministic sub-microsecond throughput.
+
+---
+
+## Quick Start — Example
+
+```java
+import fastssml.FastSSML;
+import fastssml.FastSSML.Emphasis;
+import fastssml.FastSSML.Dialect;
+
+public class Demo {
+    public static void main(String[] args) {
+        // 1. Build expressive, entity-safe speech markup
+        FastSSML speech = FastSSML.create()
+            .voice("de-DE-FlorianMultilingualNeural")
+            .lang("de-DE")
+            .rate(1.10f)     // +10% speed
+            .pitch(1.05f)    // +5% pitch
+            .volume(0.95f)   // -5% volume
+            .text("Willkommen beim FastJava Ecosystem! ")
+            .emphasis("High-Performance", Emphasis.STRONG)
+            .pause(250)      // 250ms break
+            .text(" 0 Kopien & maximale Sprachqualität.");
+
+        // 2. Render to standard W3C SSML or target dialect
+        String ssml = speech.toSSML();
+        System.out.println(ssml);
+
+        // 3. Or strip tags for plain-text TTS engines (e.g. ElevenLabs / Piper)
+        String plain = speech.toPlainText();
+        System.out.println(plain);
+    }
+}
+```
 
 ---
 
@@ -17,7 +54,6 @@
 - [Key Features](#key-features)
 - [Architecture & Dialect Pipeline](#architecture--dialect-pipeline)
 - [Performance & Benchmarks](#performance--benchmarks)
-- [Quick Start](#quick-start)
 - [Multi-Engine Dialect Matrix](#multi-engine-dialect-matrix)
 - [Installation](#installation)
 - [Technical Demos & Benchmarks](#technical-demos--benchmarks)
@@ -100,53 +136,6 @@ Measured on OpenJDK 21 LTS, Windows 11 x64:
 
 ---
 
-## Quick Start
-
-### 1. Fluent SSML Construction
-
-```java
-import fastssml.FastSSML;
-import fastssml.FastSSML.Emphasis;
-
-// Build expressive, entity-safe speech markup
-String ssml = FastSSML.create()
-    .voice("de-DE-FlorianMultilingualNeural")
-    .lang("de-DE")
-    .rate(1.10f)     // +10% speed
-    .pitch(1.05f)    // +5% pitch
-    .volume(0.95f)   // -5% volume
-    .text("Willkommen beim FastJava Ecosystem! ")
-    .emphasis("High-Performance", Emphasis.STRONG)
-    .pause(250)      // 250ms break
-    .text(" 0 Kopien & maximale Sprachqualität.")
-    .toSSML();
-```
-
-### 2. Multi-Engine Dialect Rendering
-
-```java
-import fastssml.FastSSML;
-import fastssml.FastSSML.Dialect;
-
-FastSSML builder = FastSSML.create()
-    .voice("en-US-JennyNeural")
-    .text("Voice synthesis with cross-engine dialect output.");
-
-// 1. Standard W3C
-String standard = builder.toSSML(Dialect.STANDARD);
-
-// 2. Microsoft Edge TTS
-String edge = builder.toSSML(Dialect.EDGE_TTS);
-
-// 3. Windows Native SAPI
-String sapi = builder.toSSML(Dialect.WINDOWS_SAPI);
-
-// 4. ElevenLabs / Plain Text (All XML tags cleanly stripped)
-String plain = builder.toPlainText();
-```
-
----
-
 ## Multi-Engine Dialect Matrix
 
 | Engine | Dialect Target | Supported Prosody | Tag Format |
@@ -161,7 +150,9 @@ String plain = builder.toPlainText();
 
 ## Installation
 
-### Option 1: Maven (`pom.xml`)
+### Option 1: Maven (Recommended via JitPack)
+
+Add the JitPack repository and dependency to your `pom.xml`:
 
 ```xml
 <repositories>
@@ -180,7 +171,9 @@ String plain = builder.toPlainText();
 </dependencies>
 ```
 
-### Option 2: Gradle (`build.gradle`)
+### Option 2: Gradle (via JitPack)
+
+Add this to your `build.gradle`:
 
 ```groovy
 repositories {
@@ -191,6 +184,12 @@ dependencies {
     implementation 'com.github.andrestubbe:FastSSML:0.1.0'
 }
 ```
+
+### Option 3: Direct Download (Pre-built JAR)
+
+Download the latest pre-compiled JAR directly from GitHub Releases:
+
+1. 📦 [**FastSSML-0.1.0.jar**](https://github.com/andrestubbe/FastSSML/releases/download/0.1.0/FastSSML-0.1.0.jar)
 
 ---
 
@@ -233,11 +232,15 @@ MIT License — See [LICENSE](LICENSE) for details.
 
 ## Related Projects
 
-- [FastTTS](https://github.com/andrestubbe/FastTTS) — High-performance native text-to-speech engine (Windows SAPI, Piper ONNX, Edge TTS)
+- [FastCore](https://github.com/andrestubbe/FastCore) — Native library loader, FFM gateway, and platform abstraction
+- [FastTTS](https://github.com/andrestubbe/FastTTS) — Unified, zero-bloat text-to-speech backend orchestration
+- [FastSTT](https://github.com/andrestubbe/FastSTT) — High-throughput speech-to-text integration for Java
+- [FastAudioCapture](https://github.com/andrestubbe/FastAudioCapture) — Low-latency WASAPI loopback and microphone audio capture
 - [FastAudioPlayer](https://github.com/andrestubbe/FastAudioPlayer) — Native low-latency audio playback for Java via WASAPI
 - [FastAudioProcess](https://github.com/andrestubbe/FastAudioProcess) — Zero-allocation audio DSP, resamplers, and format converters
 - [FastVAD](https://github.com/andrestubbe/FastVAD) — Native Voice Activity Detection (Silero ONNX / WebRTC)
-- [FastSTT](https://github.com/andrestubbe/FastSTT) — High-throughput speech-to-text integration for Java
+- [FastTurn](https://github.com/andrestubbe/FastTurn) — Real-time conversational turn-taking and speech arbitration
+- [FastWakeWord](https://github.com/andrestubbe/FastWakeWord) — Zero-latency offline wake word detection engine
 
 ---
 
