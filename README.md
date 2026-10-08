@@ -1,9 +1,10 @@
 # FastSSML 0.1.0 [ALPHA-2026-10] — High-Performance, Zero-Overhead SSML Dialect Engine for Java
 
-[![Release](https://img.shields.io/github/v/release/andrestubbe/FastSSML?style=for-the-badge&logo=github&color=00ffcc)](https://github.com/andrestubbe/FastSSML/releases)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-[![Java 17+](https://img.shields.io/badge/Java-17+-orange.svg?style=for-the-badge)](https://openjdk.org/)
-[![Pure Java](https://img.shields.io/badge/Architecture-Pure%20Java%20(Zero--Native)-green.svg?style=for-the-badge)]()
+[![Status](https://img.shields.io/badge/status-0.1.0-brightgreen.svg)](https://github.com/andrestubbe/FastSSML/releases/tag/0.1.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Java](https://img.shields.io/badge/Java-17+-blue.svg)](https://www.java.com)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)]()
+[![JitPack](https://img.shields.io/badge/JitPack-0.1.0-green.svg)](https://jitpack.io/#andrestubbe/FastSSML)
 
 > **"Zero Allocation. Instant XML Entity Escaping. Cross-Engine Dialect Translation."**  
 > `FastSSML` is an ultra-fast, zero-overhead speech markup generator and cross-engine dialect translator for the JVM. It synthesizes standards-compliant W3C SSML, Microsoft Edge TTS markup, Windows SAPI/OneCore speech strings, Deepgram Aura formats, and raw plain-text speech strips with deterministic sub-microsecond throughput.
