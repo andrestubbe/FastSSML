@@ -1,0 +1,14 @@
+target/
+*.class
+*.jar
+*.log
+.idea/
+*.iml
+.vscode/
+dependency-reduced-pom.xml
+native/build/
+native/bin/
+native/obj/
+*.dll
+*.so
+*.dylib
