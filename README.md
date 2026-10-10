@@ -233,14 +233,14 @@ MIT License — See [LICENSE](LICENSE) for details.
 ## Related Projects
 
 - [FastCore](https://github.com/andrestubbe/FastCore) — Native library loader, FFM gateway, and platform abstraction
-- [FastTTS](https://github.com/andrestubbe/FastTTS) — Unified, zero-bloat text-to-speech backend orchestration
-- [FastSTT](https://github.com/andrestubbe/FastSTT) — High-throughput speech-to-text integration for Java
-- [FastAudioCapture](https://github.com/andrestubbe/FastAudioCapture) — Low-latency WASAPI loopback and microphone audio capture
-- [FastAudioPlayer](https://github.com/andrestubbe/FastAudioPlayer) — Native low-latency audio playback for Java via WASAPI
+- [FastAudioCapture](https://github.com/andrestubbe/FastAudioCapture) — Zero-copy WASAPI audio loopback & microphone capture
+- [FastAudioPlayer](https://github.com/andrestubbe/FastAudioPlayer) — Ultra low-latency WASAPI and DirectSound audio playback engine
 - [FastAudioProcess](https://github.com/andrestubbe/FastAudioProcess) — Zero-allocation audio DSP, resamplers, and format converters
-- [FastVAD](https://github.com/andrestubbe/FastVAD) — Native Voice Activity Detection (Silero ONNX / WebRTC)
+- [FastVAD](https://github.com/andrestubbe/FastVAD) — Ultra-fast real-time Voice Activity Detection (Silero-ONNX & WebRTC)
 - [FastTurn](https://github.com/andrestubbe/FastTurn) — Real-time conversational turn-taking and speech arbitration
-- [FastWakeWord](https://github.com/andrestubbe/FastWakeWord) — Zero-latency offline wake word detection engine
+- [FastTTS](https://github.com/andrestubbe/FastTTS) — Unified, zero-bloat text-to-speech backend orchestration
+- [FastSTT](https://github.com/andrestubbe/FastSTT) — High-throughput local speech-to-text recognition
+- [FastWakeWord](https://github.com/andrestubbe/FastWakeWord) — Neural wake-word and keyword spotting detector
 
 ---
 
