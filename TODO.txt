@@ -1,0 +1,4 @@
+[ ] Dialect Extensions in FastSSML:
+    - Dialect.ELEVENLABS: Übersetzung von SSML (<break>, <whisper>) in ElevenLabs Audio-Tags ([short pause], [whispers])
+    - Dialect.NEURAL_EMULATED: Zerlegung an <break> mit Generierung von Silence-WAV/PCM Blöcken
+    - Universal Strip: Sauberes Entfernen nicht unterstützter Tags für reine Text-Engines
